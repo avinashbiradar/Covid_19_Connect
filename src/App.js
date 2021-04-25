@@ -1,24 +1,27 @@
-import logo from './logo.svg';
 import './App.css';
-
+import {BrowserRouter,Switch,Route} from 'react-router-dom'
+import AppBar from "../src/components/appbar/appbar"
+import Home from "../src/components/home/home" 
+import Footer from './components/footer/footer';
+import Information from './components/information/information';
+import NeedHelpRequest from './components/needHelpRequest/needHelpRequest'
+import CanHelpRequest from './components/CanHelpRequest/canhelprequest'
+import Main from "./components/MainContent/maincontent"
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+     <>
+     <BrowserRouter>
+     <AppBar/>
+     <Switch>
+     <Route component={Home} path="/" exact />
+     <Route component={Information} path="/information" />
+     <Route component={NeedHelpRequest} path="/need" />
+     <Route component={CanHelpRequest} path="/canHelp" />
+     <Route component={Main} path="/main" />
+     </Switch>
+    
+     </BrowserRouter>
+      </>
   );
 }
 
