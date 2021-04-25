@@ -50,31 +50,55 @@ const useStyles = makeStyles((theme) => ({
     color: "red",
   },
 }));
+const currencies = [
+  {
+    value: 'USD',
+    label: '$',
+  },
+  {
+    value: 'EUR',
+    label: '€',
+  },
+  {
+    value: 'BTC',
+    label: '฿',
+  },
+  {
+    value: 'JPY',
+    label: '¥',
+  },
+];
 
 export default function NeedHelpRequest() {
   const classes = useStyles();
   const [age, setAge] = React.useState("");
   const [books, setBooks] = React.useState([]);
-  const [data, setData] = React.useState(0);
-
+  const [data, setData] = React.useState([]);
+  const [currency, setCurrency] = React.useState('EUR');
   const handleChange = (event) => {
     setAge(event.target.value);
   };
+
+  React.useEffect(() => {
+    getAllCityData();
+  }, []);
+
   const getAllCityData = () => {
     console.log("get all data ");
     services
       .getRequestsForCity()
       .then((data) => {
         console.log("in the get all cities ", data);
-        setBooks(data.states.districts);
-        setData(data.states.districts);
-        console.log(data);
+        setBooks(data);
+        setData( data.data.states);
       })
       .catch((err) => {
         console.log(err);
       });
+      // console.log("data",data);
+      // console.log("book",books);
   };
-
+   console.log("data print ", data)
   return (
     <Container className="container" component="main" maxWidth="md">
       <CssBaseline />
@@ -161,15 +185,15 @@ export default function NeedHelpRequest() {
                 fullWidth
                 label="City"
                 // value={currency}
-                onChange={handleChange}
-                // onClick={getAllCityData}
+                // onChange={handleChange}
+                onClick={getAllCityData}
                 SelectProps={{
                   native: true,
                 }}
               
                 variant="outlined"
               >
-                <option>{books}</option>
+          
               </TextField>
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -178,16 +202,20 @@ export default function NeedHelpRequest() {
                 select
                 fullWidth
                 label="State"
-                // value={currency}
+                value={currency}
                 onChange={handleChange}
-              
                 SelectProps={{
                   native: true,
                 }}
                
                 variant="outlined"
               >
-                <option></option>
+              {data.map((option) => (
+            <option key={option.state} value={option.state}>
+              {option.state}
+            </option>
+          ))}
+            
               </TextField>
             </Grid>
             <br />
